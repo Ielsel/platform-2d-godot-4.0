@@ -4,3 +4,6 @@ res://actors/player.tscn
 res://prefabs/moving_platform.tscn
 res://prefabs/coin.tscn
 res://actors/enemy.tscn
+res://scripts/hitbox.gd
+res://prefabs/hitbox.tscn
+res://scripts/enemy.gd

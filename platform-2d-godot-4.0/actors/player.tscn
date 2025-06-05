@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://h1qoc7a6j5bh"]
+[gd_scene load_steps=14 format=3 uid="uid://h1qoc7a6j5bh"]
 
 [ext_resource type="Script" uid="uid://cgs78f00tvd8x" path="res://scripts/player.gd" id="1_mvpqy"]
 [ext_resource type="Texture2D" uid="uid://dlm74e1jjbsp3" path="res://assets/Sprite Pack 2/2 - Mr. Mochi/Idle (32 x 32).png" id="2_1yqc4"]
@@ -71,8 +71,11 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_esgq3"]
+size = Vector2(18, 11)
+
 [node name="Player" type="CharacterBody2D"]
-collision_mask = 2
+collision_mask = 22
 script = ExtResource("1_mvpqy")
 
 [node name="Collision" type="CollisionShape2D" parent="."]
@@ -97,3 +100,10 @@ animation = &"Jump"
 frame_progress = 0.523739
 
 [node name="Animator" type="AnimationPlayer" parent="."]
+
+[node name="Hurtbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -10.5)
+shape = SubResource("RectangleShape2D_esgq3")
+debug_color = Color(0.960854, 0.147902, 0.341795, 0.42)

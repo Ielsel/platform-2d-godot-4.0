@@ -6,6 +6,7 @@ const SPEED = 50.0 # Velocidade do inimigo
 @onready var wall_detector := $Wall_detector as RayCast2D
 # Salvando a textura na variável
 @onready var texture := $Texture as Sprite2D
+@onready var anim := $Anim as AnimationPlayer
 
 var direction := -1 # O inimigo vai começar andando pra esquerda
 
@@ -29,3 +30,10 @@ func _physics_process(_delta: float) -> void:
 		velocity.x = direction * SPEED * _delta
 
 	move_and_slide()
+
+
+func _on_anim_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "hurt":
+		queue_free()
+		
+		
