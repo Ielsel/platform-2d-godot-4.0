@@ -1,12 +1,17 @@
-[gd_scene load_steps=14 format=3 uid="uid://h1qoc7a6j5bh"]
+[gd_scene load_steps=16 format=3 uid="uid://h1qoc7a6j5bh"]
 
 [ext_resource type="Script" uid="uid://cgs78f00tvd8x" path="res://scripts/player.gd" id="1_mvpqy"]
 [ext_resource type="Texture2D" uid="uid://dlm74e1jjbsp3" path="res://assets/Sprite Pack 2/2 - Mr. Mochi/Idle (32 x 32).png" id="2_1yqc4"]
+[ext_resource type="Texture2D" uid="uid://b63k2r8223jdr" path="res://assets/Sprite Pack 2/2 - Mr. Mochi/Hurt (32 x 32).png" id="2_kjkj0"]
 [ext_resource type="Texture2D" uid="uid://cirlaj4apacdb" path="res://assets/Sprite Pack 2/2 - Mr. Mochi/Running (32 x 32).png" id="3_1yqc4"]
 [ext_resource type="Texture2D" uid="uid://b5f8j7hob0wjs" path="res://assets/Sprite Pack 2/2 - Mr. Mochi/Jumping (32 x 32).png" id="3_esgq3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tsgde"]
 size = Vector2(16, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_er1rk"]
+atlas = ExtResource("2_kjkj0")
+region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pmfem"]
 atlas = ExtResource("2_1yqc4")
@@ -34,6 +39,14 @@ region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_712nc"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_er1rk")
+}],
+"loop": true,
+"name": &"Hurt",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_pmfem")
@@ -79,31 +92,36 @@ collision_mask = 22
 script = ExtResource("1_mvpqy")
 
 [node name="Collision" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, -8)
 shape = SubResource("RectangleShape2D_tsgde")
-
-[node name="Camera" type="Camera2D" parent="."]
-position = Vector2(6, 4)
-limit_left = 0
-limit_bottom = 320
-limit_smoothed = true
-position_smoothing_enabled = true
-position_smoothing_speed = 10.0
-drag_horizontal_enabled = true
-editor_draw_limits = true
-editor_draw_drag_margin = true
 
 [node name="Anim" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_712nc")
-animation = &"Jump"
-frame_progress = 0.523739
+animation = &"Hurt"
 
 [node name="Animator" type="AnimationPlayer" parent="."]
 
 [node name="Hurtbox" type="Area2D" parent="."]
+visible = false
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 position = Vector2(0, -10.5)
 shape = SubResource("RectangleShape2D_esgq3")
 debug_color = Color(0.960854, 0.147902, 0.341795, 0.42)
+
+[node name="Remote" type="RemoteTransform2D" parent="."]
+
+[node name="Ray_right" type="RayCast2D" parent="."]
+position = Vector2(8, -8)
+target_position = Vector2(4, 0)
+collision_mask = 4
+
+[node name="Ray_left" type="RayCast2D" parent="."]
+position = Vector2(-8, -8)
+target_position = Vector2(-4, 0)
+collision_mask = 4
+
+[connection signal="body_entered" from="Hurtbox" to="." method="_on_hurtbox_body_entered"]

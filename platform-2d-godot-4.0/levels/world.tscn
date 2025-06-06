@@ -1,5 +1,6 @@
-[gd_scene load_steps=18 format=4 uid="uid://blbgwl3vwr1xw"]
+[gd_scene load_steps=25 format=4 uid="uid://blbgwl3vwr1xw"]
 
+[ext_resource type="Script" uid="uid://bya2fjovo3eun" path="res://scripts/world.gd" id="1_mla2a"]
 [ext_resource type="Texture2D" uid="uid://m8vqvypqtg6w" path="res://assets/Seasonal Tilesets/1 - Grassland/Terrain (16 x 16).png" id="1_w32yo"]
 [ext_resource type="Texture2D" uid="uid://b1s2n7tjcpcjh" path="res://assets/Seasonal Tilesets/1 - Grassland/Grassland_entities (16 x 16).png" id="2_712nc"]
 [ext_resource type="PackedScene" uid="uid://h1qoc7a6j5bh" path="res://actors/player.tscn" id="3_pmfem"]
@@ -12,6 +13,12 @@
 [ext_resource type="Texture2D" uid="uid://woh5sqq5dvfu" path="res://assets/Seasonal Tilesets/1 - Grassland/Background parts/2 - Hills.png" id="7_re8x6"]
 [ext_resource type="Texture2D" uid="uid://bttewf68tvq3n" path="res://assets/Seasonal Tilesets/1 - Grassland/Background parts/1 - Foreground_scenery.png" id="8_wqmfy"]
 [ext_resource type="PackedScene" uid="uid://c6dv5uwytpqlh" path="res://prefabs/moving_platform.tscn" id="10_lmpr0"]
+[ext_resource type="Texture2D" uid="uid://cf8lvgoedhnp" path="res://assets/Extra/ui_buttons_arrow_left_NORMAL.png" id="14_54i5j"]
+[ext_resource type="Texture2D" uid="uid://b223bytwt4ntl" path="res://assets/Extra/ui_buttons_arrow_left_PRESSED.png" id="15_wrd2w"]
+[ext_resource type="Texture2D" uid="uid://cgamfjp5hisac" path="res://assets/Extra/ui_buttons_arrow_right_NORMAL.png" id="16_og45p"]
+[ext_resource type="Texture2D" uid="uid://b31sulfswkwb4" path="res://assets/Extra/ui_buttons_arrow_right_PRESSED.png" id="17_yfe8t"]
+[ext_resource type="Texture2D" uid="uid://01a8b0ys74mv" path="res://assets/Extra/ui_buttons_arrow_up_NORMAL.png" id="18_tu8ou"]
+[ext_resource type="Texture2D" uid="uid://dgij5e4jgflfr" path="res://assets/Extra/ui_buttons_arrow_up_PRESSED.png" id="19_h5spq"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_w32yo"]
 texture = ExtResource("1_w32yo")
@@ -113,6 +120,7 @@ shader = ExtResource("6_687qm")
 shader_parameter/move_speed = 0.1
 
 [node name="World" type="Node2D"]
+script = ExtResource("1_mla2a")
 
 [node name="level" type="TileMap" parent="."]
 format = 2
@@ -124,15 +132,6 @@ tile_set = SubResource("TileSet_712nc")
 [node name="tree" type="TileMapLayer" parent="level"]
 tile_map_data = PackedByteArray("AAADABAAAAAJAAEAAAAIABAAAAAFAAEAAAAOABAAAAABAAEAAAAXABAAAAAJAAEAAAAjABAAAAABAAEAAAAQAA0AAAABAAEAAAA=")
 tile_set = SubResource("TileSet_vons5")
-
-[node name="Enemy" parent="." instance=ExtResource("3_wqmfy")]
-position = Vector2(179, 265)
-
-[node name="Enemy2" parent="." instance=ExtResource("3_wqmfy")]
-position = Vector2(480, 267)
-
-[node name="Enemy3" parent="." instance=ExtResource("3_wqmfy")]
-position = Vector2(724, 265)
 
 [node name="Coins" type="Node2D" parent="."]
 position = Vector2(78, 100)
@@ -156,10 +155,10 @@ position = Vector2(-21, 29)
 position = Vector2(425, 107)
 
 [node name="Moving_platform" parent="." instance=ExtResource("10_lmpr0")]
-position = Vector2(398, 145)
+position = Vector2(497, 49)
 
 [node name="Moving_platform2" parent="." instance=ExtResource("10_lmpr0")]
-position = Vector2(519, 145)
+position = Vector2(428, 168)
 move_horizontal = false
 
 [node name="Player" parent="." instance=ExtResource("3_pmfem")]
@@ -213,3 +212,48 @@ motion_mirroring = Vector2(432, 0)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("8_wqmfy")
 centered = false
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2(6, 4)
+limit_left = 0
+limit_bottom = 320
+limit_smoothed = true
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
+drag_horizontal_enabled = true
+editor_draw_limits = true
+editor_draw_drag_margin = true
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Enemy" parent="Enemies" instance=ExtResource("3_wqmfy")]
+position = Vector2(179, 265)
+
+[node name="Enemy2" parent="Enemies" instance=ExtResource("3_wqmfy")]
+position = Vector2(480, 267)
+
+[node name="Enemy3" parent="Enemies" instance=ExtResource("3_wqmfy")]
+position = Vector2(724, 265)
+
+[node name="Controls" type="CanvasLayer" parent="."]
+
+[node name="ui_left" type="TouchScreenButton" parent="Controls"]
+position = Vector2(17, 116)
+texture_normal = ExtResource("14_54i5j")
+texture_pressed = ExtResource("15_wrd2w")
+action = "ui_left"
+visibility_mode = 1
+
+[node name="ui_right" type="TouchScreenButton" parent="Controls"]
+position = Vector2(59, 116)
+texture_normal = ExtResource("16_og45p")
+texture_pressed = ExtResource("17_yfe8t")
+action = "ui_right"
+visibility_mode = 1
+
+[node name="ui_jump" type="TouchScreenButton" parent="Controls"]
+position = Vector2(280, 116)
+texture_normal = ExtResource("18_tu8ou")
+texture_pressed = ExtResource("19_h5spq")
+action = "ui_accept"
+visibility_mode = 1
